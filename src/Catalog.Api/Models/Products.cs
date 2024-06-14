@@ -11,16 +11,16 @@ public class Products
         Category = category;
     }
 
-    public static Products CreateProducts(
+    public static Products CreateProduct(
         string name,
-        string description, 
+        string description,
         string imageFile,
         decimal price,
         List<string> category)
     {
         //TODO
-        //Custom Validatiom
-        
+        //Custom Validation // Result class 
+
         if (category == null) throw new ArgumentNullException(nameof(category));
         if (string.IsNullOrWhiteSpace(name))
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
@@ -29,11 +29,21 @@ public class Products
         if (string.IsNullOrWhiteSpace(imageFile))
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(imageFile));
         ArgumentOutOfRangeException.ThrowIfNegative(price);
-        
-        var product = new Products(name,description,imageFile, price,category);
-        
+
+        var product = new Products(name, description, imageFile, price, category);
+
         return product;
     }
+
+    //TODO
+    // public static Products UpdateProduct(string name,
+    //     string description,
+    //     string imageFile,
+    //     decimal price,
+    //     List<string> category)
+    // {
+    //     
+    // }
 
 
     public Guid Id { get; set; }
