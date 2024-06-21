@@ -1,8 +1,10 @@
 namespace Catalog.Api.Models;
 
-public class Products
+public class Product
 {
-    private Products(string name, string description, string imageFile, decimal price, List<string> category)
+    public Product(){}
+    
+    private Product(string name, string description, string imageFile, decimal price, List<string> category)
     {
         Price = price;
         Name = name;
@@ -11,7 +13,7 @@ public class Products
         Category = category;
     }
 
-    public static Products CreateProduct(
+    public static Product CreateProduct(
         string name,
         string description,
         string imageFile,
@@ -30,7 +32,7 @@ public class Products
             throw new ArgumentException("Value cannot be null or whitespace.", nameof(imageFile));
         ArgumentOutOfRangeException.ThrowIfNegative(price);
 
-        var product = new Products(name, description, imageFile, price, category);
+        var product = new Product(name, description, imageFile, price, category);
 
         return product;
     }

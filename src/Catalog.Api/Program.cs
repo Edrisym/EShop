@@ -9,7 +9,7 @@ builder.Services.AddMediatR(config =>
 
 builder.Services.AddMarten(options =>
 {
-    options.Connection(builder.Configuration.GetConnectionString("DefaultConnectionString")!);
+    options.Connection(builder.Configuration.GetConnectionString("DefaultConnection")!);
 });
 
 var app = builder.Build();

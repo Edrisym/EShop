@@ -1,4 +1,4 @@
-namespace Catalog.Api.Products;
+namespace Catalog.Api.Products.CreateProduct;
 
 public sealed record CreateProductCommand(
     string Name,
@@ -15,7 +15,7 @@ public class CreateProductHandler(IDocumentSession session)
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var product = Models.Products.CreateProduct(
+        var product = Models.Product.CreateProduct(
             command.Name,
             command.Description,
             command.ImageFile,

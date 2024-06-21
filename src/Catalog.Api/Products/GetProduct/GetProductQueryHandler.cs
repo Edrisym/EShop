@@ -1,15 +1,18 @@
+using Catalog.Api.Models;
 
 namespace Catalog.Api.Products.GetProduct;
 
 public sealed record GetProductQuery() : IQuery<GetProductResult>;
 
-public sealed record GetProductResult(IReadOnlyCollection<Models.Products> Products);
+public sealed record GetProductResult(IReadOnlyCollection<Product> Products);
 
-
-public class GetProductQueryHandler : IQueryHandler<GetProductQuery, GetProductResult>
+public class GetProductQueryHandler(IDocumentSession session, ILogger<GetProductQueryHandler> logger)
+    : IQueryHandler<GetProductQuery, GetProductResult>
 {
-    public Task<GetProductResult> Handle(GetProductQuery request, CancellationToken cancellationToken)
+    public async Task<GetProductResult> Handle(GetProductQuery query, CancellationToken cancellationToken)
     {
-        
+        logger.LogInformation($"GetProductQueryHandler.Handle called with {query}", query);
+        var products = await session.Query<Product>().ToListAsync(cancellationToken);
+        return new GetProductResult(products);
     }
 }
