@@ -10,7 +10,7 @@ builder.Services.AddMediatR(config =>
 builder.Services.AddMarten(options =>
 {
     options.Connection(builder.Configuration.GetConnectionString("DefaultConnection")!);
-});
+}).UseLightweightSessions();
 
 var app = builder.Build();
 
