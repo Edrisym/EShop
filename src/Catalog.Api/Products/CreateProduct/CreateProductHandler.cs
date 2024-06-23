@@ -1,3 +1,5 @@
+using Catalog.Api.Models;
+
 namespace Catalog.Api.Products.CreateProduct;
 
 public sealed record CreateProductCommand(
@@ -15,7 +17,7 @@ public class CreateProductHandler(IDocumentSession session)
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var product = Models.Product.CreateProduct(
+        var product = Product.CreateProduct(
             command.Name,
             command.Description,
             command.ImageFile,

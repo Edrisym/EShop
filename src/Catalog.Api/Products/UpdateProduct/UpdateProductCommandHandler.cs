@@ -1,6 +1,5 @@
 using Catalog.Api.Exceptions;
 using Catalog.Api.Models;
-using Marten.Schema.Identity.Sequences;
 
 namespace Catalog.Api.Products.UpdateProduct;
 
@@ -11,9 +10,10 @@ public sealed record UpdateProductCommand(
     string imageFile,
     decimal price,
     List<string> category) : ICommand<UpdateProductResult>;
+
 public sealed record UpdateProductResult(bool IsSuccess);
 
-public class UpdateProductCommandHandler(IDocumentSession session, ILogger logger) 
+public class UpdateProductCommandHandler(IDocumentSession session, ILogger logger)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
@@ -26,8 +26,16 @@ public class UpdateProductCommandHandler(IDocumentSession session, ILogger logge
         {
             throw new ProductNotFoundException();
         }
+
+        var updatedProduct = Product.UpdateProduct(product.Name,
+            product.Description,
+            product.ImageFile,
+            product.Price,
+            product.Category);
         
+        session.Update(updatedProduct);
+        await session.SaveChangesAsync(cancellationToken);
         
-        
+        return new UpdateProductResult(true);
     }
 }

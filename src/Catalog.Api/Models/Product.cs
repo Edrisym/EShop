@@ -38,14 +38,24 @@ public class Product
     }
 
     //TODO
-    // public static Products UpdateProduct(string name,
-    //     string description,
-    //     string imageFile,
-    //     decimal price,
-    //     List<string> category)
-    // {
-    //     
-    // }
+    //Result pattern
+    public static Product UpdateProduct(string name,
+        string description,
+        string imageFile,
+        decimal price,
+        List<string> category)
+    {
+        var product = new Product
+        {
+            Name = name,
+            Description = description,
+            ImageFile = imageFile,
+            Price = price,
+            Category = category
+        };
+
+        return product;
+    }
 
 
     public Guid Id { get; set; }
