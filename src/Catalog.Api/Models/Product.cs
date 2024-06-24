@@ -39,7 +39,9 @@ public class Product
 
     //TODO
     //Result pattern
-    public static Product UpdateProduct(string name,
+    public static Product UpdateProduct(
+        Guid id,
+        string name,
         string description,
         string imageFile,
         decimal price,
@@ -47,6 +49,7 @@ public class Product
     {
         var product = new Product
         {
+            Id = id,
             Name = name,
             Description = description,
             ImageFile = imageFile,
