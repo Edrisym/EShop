@@ -12,7 +12,7 @@ public sealed record CreateProductCommand(
 
 public record CreateProductResult(Guid Id);
 
-public class CreateProductHandler(IDocumentSession session) 
+public class CreateProductHandler(IDocumentSession _session, IValidator<CreateProductCommand> _validator)
     : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -23,10 +23,10 @@ public class CreateProductHandler(IDocumentSession session)
             command.ImageFile,
             command.Price,
             command.Category);
-        
-        session.Store(product);
-        await session.SaveChangesAsync(cancellationToken);
 
-        return new CreateProductResult(product.Id) ;
+        _session.Store(product);
+        await _session.SaveChangesAsync(cancellationToken);
+
+        return new CreateProductResult(product.Id);
     }
 }
