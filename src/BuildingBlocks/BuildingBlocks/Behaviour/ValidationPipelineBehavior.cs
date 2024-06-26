@@ -1,3 +1,5 @@
+using BuildingBlocks.ApiResultWrapper;
+using BuildingBlocks.Common.Response;
 using BuildingBlocks.CQRS;
 using FluentValidation;
 using MediatR;
@@ -7,24 +9,46 @@ namespace BuildingBlocks.Behaviour;
 public class ValidationPipelineBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> _validators)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand<TResponse>
-//where TResponse : Result
+    where TResponse : Result
 {
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+    private static TResult CreateValidationResult<TResult>(Error[] errors)
+        where TResult : Result
     {
-        var context = new ValidationContext<TRequest>(request);
+        if (typeof(TResult) == typeof(Result))
+        {
+            return (Result.ValidationFailure(errors) as TResult)!;
+        }
 
-        var validationResults =
-            await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+        object validationResult = typeof(Result)
+            .GetGenericTypeDefinition()
+            .MakeGenericType(typeof(TResult).GenericTypeArguments[0])
+            .GetMethod(nameof(Result.ValidationFailure))!
+            .Invoke(null, [errors])!;
 
-        var failures =
-            validationResults
-                .Where(r => r.Errors.Any())
-                .SelectMany(r => r.Errors)
-                .ToList();
+        return (TResult)validationResult;
+    }
 
-        if (failures.Any())
-            throw new ValidationException(failures);
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    {
+        if (!_validators.Any())
+        {
+            return await next();
+        }
+
+        Error[] errors = _validators
+            .Select(validator => validator.Validate(request))
+            .SelectMany(ValidationResult => ValidationResult.Errors)
+            .Where(validationfailure => validationfailure is not null)
+            .Select(failure => new Error(
+                failure.ErrorCode,
+                failure.ErrorMessage))
+            .Distinct()
+            .ToArray();
+
+        if (errors.Length != 0)
+        {
+            return CreateValidationResult<TResponse>(errors);
+        }
 
         return await next();
     }
