@@ -1,3 +1,7 @@
+using BuildingBlocks.ApiResultWrapper;
+using BuildingBlocks.Common.Response;
+using Catalog.Api.Products.CreateProduct;
+
 namespace Catalog.Api.Models;
 
 public class Product
@@ -13,33 +17,30 @@ public class Product
         Category = category;
     }
 
-    public static Product CreateProduct(
+    public static Result<Product> CreateProduct(
         string name,
         string description,
         string imageFile,
         decimal price,
         List<string> category)
     {
-        //TODO
-        //Custom Validation // Result class 
-
         if (category == null) throw new ArgumentNullException(nameof(category));
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
+            return Result.Failure<Product>(ProductErrors.InvalidProductName);
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(description));
+            //TODO
         if (string.IsNullOrWhiteSpace(imageFile))
-            throw new ArgumentException("Value cannot be null or whitespace.", nameof(imageFile));
+            //TODO
         ArgumentOutOfRangeException.ThrowIfNegative(price);
 
         var product = new Product(name, description, imageFile, price, category);
 
         return product;
     }
-
-    //TODO
-    //Result pattern
+ 
     public static Product UpdateProduct(
+        
+        //TODO
         Guid id,
         string name,
         string description,
