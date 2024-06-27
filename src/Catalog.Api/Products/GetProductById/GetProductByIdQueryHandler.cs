@@ -1,5 +1,5 @@
 using Catalog.Api.Exceptions;
-using Catalog.Api.Models;
+using Catalog.Api.Models.Products;
 using Catalog.Api.Products.GetProduct;
 
 namespace Catalog.Api.Products.GetProductById;

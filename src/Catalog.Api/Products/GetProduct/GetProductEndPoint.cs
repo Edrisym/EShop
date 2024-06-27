@@ -1,5 +1,4 @@
-using Catalog.Api.Models;
-using FastExpressionCompiler;
+using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProduct;
 

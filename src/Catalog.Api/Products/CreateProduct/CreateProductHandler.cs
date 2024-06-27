@@ -1,5 +1,5 @@
 using BuildingBlocks.ApiResultWrapper;
-using Catalog.Api.Models;
+using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.CreateProduct;
 
@@ -21,8 +21,13 @@ public class CreateProductHandler(IDocumentSession _session,
     public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
         logger.LogInformation($"CreateProductHandler.Handle was called {command}", command);
-        
-        //TODO Search for duplicates
+
+        var productExists = _session.LoadAsync<Product>(command.Name);
+
+        if (productExists is null)
+        {
+            return Result.Failure(ProductErrors.DuplicatedProductError);
+        }
         
         var product = Product.CreateProduct(
             command.Name,

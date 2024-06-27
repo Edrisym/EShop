@@ -1,13 +1,14 @@
 using BuildingBlocks.ApiResultWrapper;
-using BuildingBlocks.Common.Response;
 using Catalog.Api.Products.CreateProduct;
 
-namespace Catalog.Api.Models;
+namespace Catalog.Api.Models.Products;
 
 public class Product
 {
-    public Product(){}
-    
+    public Product()
+    {
+    }
+
     private Product(string name, string description, string imageFile, decimal price, List<string> category)
     {
         Price = price;
@@ -22,31 +23,33 @@ public class Product
         string description,
         string imageFile,
         decimal price,
-        List<string> category)
+        List<string> categories)
     {
-        if (category == null) throw new ArgumentNullException(nameof(category));
+        if (categories == null || categories.Count < 0)
+            Result.Failure<Product>(ProductErrors.EmptyCategoryError);
         if (string.IsNullOrWhiteSpace(name))
             return Result.Failure<Product>(ProductErrors.InvalidProductName);
         if (string.IsNullOrWhiteSpace(description))
-            //TODO
+            return Result.Failure<Product>(ProductErrors.InvalidDescriptionError);
+        //--
         if (string.IsNullOrWhiteSpace(imageFile))
-            //TODO
-        ArgumentOutOfRangeException.ThrowIfNegative(price);
+            //TODO -- make a custom validation for the image 
+        //--
+            if (!price.IsGreaterThanZero())
+                Result.Failure(ProductErrors.PriceIsNegativeError);
 
-        var product = new Product(name, description, imageFile, price, category);
+        var product = new Product(name, description, imageFile, price, categories);
 
         return product;
     }
- 
-    public static Product UpdateProduct(
-        
-        //TODO
+
+    public static Result<Product> UpdateProduct(
         Guid id,
         string name,
         string description,
         string imageFile,
         decimal price,
-        List<string> category)
+        List<string> categories)
     {
         var product = new Product
         {
@@ -55,7 +58,7 @@ public class Product
             Description = description,
             ImageFile = imageFile,
             Price = price,
-            Category = category
+            Category = categories
         };
 
         return product;
