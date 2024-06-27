@@ -13,29 +13,31 @@ public sealed record CreateProductCommand(
 
 public record CreateProductResult(Guid Id);
 
-public class CreateProductHandler(IDocumentSession _session, 
+public class CreateProductHandler(
+    IDocumentSession _session,
     IValidator<CreateProductCommand> _validator,
     ILogger<CreateProductHandler> logger)
     : ICommandHandler<CreateProductCommand, Result>
 {
     public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"CreateProductHandler.Handle was called {command}", command);
+        logger.LogInformation("CreateProductHandler.Handle was called {command}", command);
 
-        var productExists = _session.LoadAsync<Product>(command.Name);
+        var productExists = _session.Query<Product>()
+            .FirstOrDefaultAsync(x => x.Name == command.Name, token: cancellationToken);
 
-        if (productExists is null)
+        if (productExists is not null)
         {
             return Result.Failure(ProductErrors.DuplicatedProductError);
         }
-        
+
         var product = Product.CreateProduct(
             command.Name,
             command.Description,
             command.ImageFile,
             command.Price,
-            command.Category);
-        
+            command.Category).Data;
+
         _session.Store(product);
         await _session.SaveChangesAsync(cancellationToken);
 

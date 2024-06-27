@@ -9,8 +9,9 @@ public class Product
     {
     }
 
-    private Product(string name, string description, string imageFile, decimal price, List<string> category)
+    private Product(Guid id ,string name, string description, string imageFile, decimal price, List<string> category)
     {
+        Id = id;
         Price = price;
         Name = name;
         Description = description;
@@ -38,7 +39,7 @@ public class Product
             if (!price.IsGreaterThanZero())
                 Result.Failure(ProductErrors.PriceIsNegativeError);
 
-        var product = new Product(name, description, imageFile, price, categories);
+        var product = new Product(Guid.NewGuid() ,name, description, imageFile, price, categories);
 
         return product;
     }

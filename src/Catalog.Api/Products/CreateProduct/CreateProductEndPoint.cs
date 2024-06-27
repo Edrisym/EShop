@@ -1,3 +1,6 @@
+using BuildingBlocks.ApiResultWrapper;
+using Catalog.Api.Models.Products;
+
 namespace Catalog.Api.Products.CreateProduct;
 
 public sealed record CreateProductRequest(
@@ -8,7 +11,7 @@ public sealed record CreateProductRequest(
     decimal Price
 );
 
-public record CreateProductResponse(Guid Id);
+// public record CreateProductResponse(Result<Product> result);
 
 public class CreateProductEndPoint : ICarterModule
 {
@@ -18,12 +21,12 @@ public class CreateProductEndPoint : ICarterModule
                 async (CreateProductRequest request, ISender sender) =>
                 {
                     var command = request.Adapt<CreateProductCommand>();
-                    var result = await sender.Send(command);
-                    var response = result.Adapt<CreateProductResponse>();
-                    return Results.Created($"/Products/{response.Id}", response);
+                    var response = await sender.Send(command);
+                    // var response = result.Adapt<CreateProductResponse>();
+                    return Results.Created($"/Products/{response}", response);
                 })
             .WithName("Products")
-            .Produces<CreateProductResponse>(StatusCodes.Status201Created)
+            .Produces<Result>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Create Product")
             .WithDescription("Create Product");
