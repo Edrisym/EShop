@@ -10,13 +10,11 @@ public sealed record GetProductByIdQuery(Guid Id) : IQuery<Result<Product>>;
 
 public sealed record GetProductByIdRequest(Result<Product> Product);
 
-public class GetProductByIdQueryHandler(IDocumentSession session, ILogger<GetProductQueryHandler> logger)
+public class GetProductByIdQueryHandler(IDocumentSession session)
     : IQueryHandler<GetProductByIdQuery, Result<Product>>
 {
-    public async Task<Result<Product>> Handle(GetProductByIdQuery query,
-        CancellationToken cancellationToken)
+    public async Task<Result<Product>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"GetProductByIdQueryHandler.Handle Called with {query}");
         var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
         if (product is null)
         {

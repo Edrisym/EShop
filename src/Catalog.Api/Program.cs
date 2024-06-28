@@ -1,4 +1,6 @@
+using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using Catalog.API.Data;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,7 @@ builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
     config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
     // config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
 builder.Services.AddValidatorsFromAssembly(assembly);

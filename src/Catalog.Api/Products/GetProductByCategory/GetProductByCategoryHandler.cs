@@ -8,14 +8,12 @@ public sealed record GetProductByCategoryQuery(string category) : IQuery<Result<
 
 public sealed record GetProductByCategoryResult(Result<IReadOnlyCollection<Product>> Products);
 
-public class GetProductByCategoryHandler(IDocumentSession session, ILogger<GetProductByCategoryHandler> logger)
+public class GetProductByCategoryHandler(IDocumentSession session)
     : IQueryHandler<GetProductByCategoryQuery, Result<IReadOnlyCollection<Product>>>
 {
     public async Task<Result<IReadOnlyCollection<Product>>> Handle(GetProductByCategoryQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetProductByCategoryHandler.Handle was called with {query}", query);
-
         var products = await session.Query<Product>()
             .Where(x => x.Category.Contains(query.category))
             .ToListAsync(cancellationToken);

@@ -21,8 +21,6 @@ public class CreateProductHandler(
 {
     public async Task<Result> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("CreateProductHandler.Handle was called {command}", command);
-
         var productExists = await _session.Query<Product>()
             .FirstOrDefaultAsync(x => x.Name == command.Name, token: cancellationToken);
 

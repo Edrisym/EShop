@@ -10,13 +10,10 @@ public sealed record DeleteProductCommand(Guid Id)
 
 public record DeleteProductResult(Result result);
 
-public class DeleteProductCommandHandler(IDocumentSession session, ILogger<DeleteProductCommandHandler> logger)
-    : ICommandHandler<DeleteProductCommand, Result>
+public class DeleteProductCommandHandler(IDocumentSession session) : ICommandHandler<DeleteProductCommand, Result>
 {
     public async Task<Result> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteProductCommandHandler.Handle was called {command}", command);
-
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
         if (product is null)
         {
