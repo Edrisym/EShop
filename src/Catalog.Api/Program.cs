@@ -1,3 +1,6 @@
+using BuildingBlocks.Exceptions.Handler;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -13,8 +16,12 @@ builder.Services.AddMarten(options =>
     options.Connection(builder.Configuration.GetConnectionString("DefaultConnection")!);
 }).UseLightweightSessions();
 
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
 
 app.MapCarter();
+
+app.UseExceptionHandler(opt => { });
 
 app.Run();
