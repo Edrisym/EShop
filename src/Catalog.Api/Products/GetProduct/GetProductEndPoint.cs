@@ -1,22 +1,23 @@
 using BuildingBlocks.ApiResultWrapper;
-using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProduct;
 
-//Public record GetProductRequest
+public record GetProductRequest(int? PageNumber = 1, int? PageSize = 10);
+public sealed record GetProductsResponse(Result Products);
 
 public class GetProductEndPoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/Products", async (ISender sender) =>
+        app.MapGet("/Products", async ([AsParameters] GetProductRequest request, ISender sender) =>
             {
-                var result = await sender.Send(new GetProductQuery());
-                var response = result.Adapt<Result<IReadOnlyCollection<Product>>>();
+                var query = request.Adapt<GetProductQuery>();
+                var response = await sender.Send(query);
+                // var response = result.Adapt<GetProductsResponse>();
                 return Results.Ok(response);
             })
             .WithName("GetProducts")
-            .Produces<Result<IReadOnlyCollection<Product>>>(StatusCodes.Status200OK)
+            .Produces<Result>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Get Product")
             .WithDescription("Get Product");

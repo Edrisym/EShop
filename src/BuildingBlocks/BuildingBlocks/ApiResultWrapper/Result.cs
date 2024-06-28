@@ -40,6 +40,10 @@ public class Result
     public static Result<T> Failure<T>(Error error)
         => new(false, BaseMessages.OperationFailedMessage.Text, [error], default!);
     
-    public static Result<T> Success<T>()
-        => new(true, BaseMessages.OperationSuccessfulMessage.Text, [], default!);
+    // public static Result<T> Success<T>()
+    //     => new(true, BaseMessages.OperationSuccessfulMessage.Text, [], default!);
+    
+        
+    public static Result<T> Success<T>(T value)
+        => new(true, BaseMessages.OperationSuccessfulMessage.Text, [], value ?? default!);
 }
