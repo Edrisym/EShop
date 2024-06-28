@@ -1,15 +1,16 @@
+using BuildingBlocks.ApiResultWrapper;
 using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProductByCategory;
 
-public sealed record GetProductByCategoryQuery(string category) : IQuery<GetProductByCategoryResult>;
+public sealed record GetProductByCategoryQuery(string category) : IQuery<Result<IReadOnlyCollection<Product>>>;
 
-public sealed record GetProductByCategoryResult(IReadOnlyCollection<Product> Products);
+public sealed record GetProductByCategoryResult(Result<IReadOnlyCollection<Product>> Products);
 
 public class GetProductByCategoryHandler(IDocumentSession session, ILogger<GetProductByCategoryHandler> logger)
-    : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
+    : IQueryHandler<GetProductByCategoryQuery, Result<IReadOnlyCollection<Product>>>
 {
-    public async Task<GetProductByCategoryResult> Handle(GetProductByCategoryQuery query,
+    public async Task<Result<IReadOnlyCollection<Product>>> Handle(GetProductByCategoryQuery query,
         CancellationToken cancellationToken)
     {
         logger.LogInformation("GetProductByCategoryHandler.Handle was called with {query}", query);
@@ -18,6 +19,6 @@ public class GetProductByCategoryHandler(IDocumentSession session, ILogger<GetPr
             .Where(x => x.Category.Contains(query.category))
             .ToListAsync(cancellationToken);
 
-        return new GetProductByCategoryResult(result);
+        return Result<IReadOnlyCollection<Product>>.Success(result);
     }
 }

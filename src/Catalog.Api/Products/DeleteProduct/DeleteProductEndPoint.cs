@@ -9,9 +9,9 @@ public class DeleteProductEndPoint : ICarterModule
     {
         app.MapDelete("/products/{id:Guid}", async (Guid id, ISender sender) =>
             {
-                var request = await sender.Send(new DeleteProductCommand(id));
+                var response = await sender.Send(new DeleteProductCommand(id));
                 // var response = request.Adapt<DeleteProductResponse>();
-                return Results.Ok(request);
+                return Results.Ok(response);
             })
             .WithName("DeleteProduct")
             .Produces<DeleteProductResponse>(StatusCodes.Status200OK)

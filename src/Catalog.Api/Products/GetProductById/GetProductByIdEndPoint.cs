@@ -1,10 +1,11 @@
+using BuildingBlocks.ApiResultWrapper;
 using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProductById;
 
 //getProductById
 
-public sealed record GetProductByIdResponse(Product Product);
+public sealed record GetProductByIdResponse(Result<Product> Product);
 
 public class GetProductByIdEndPoint : ICarterModule
 {
@@ -13,7 +14,7 @@ public class GetProductByIdEndPoint : ICarterModule
         app.MapGet("/products/{id:guid}", async (Guid id, ISender sender) =>
             {
                 var result = await sender.Send(new GetProductByIdQuery(id));
-                var response = result.Adapt<GetProductByIdResponse>();
+                var response = result.Adapt<Result<Product>>();
                 return response;
             })
             .WithName("GetProductsById")

@@ -23,7 +23,7 @@ public class CreateProductHandler(
     {
         logger.LogInformation("CreateProductHandler.Handle was called {command}", command);
 
-        var productExists = _session.Query<Product>()
+        var productExists = await _session.Query<Product>()
             .FirstOrDefaultAsync(x => x.Name == command.Name, token: cancellationToken);
 
         if (productExists is not null)

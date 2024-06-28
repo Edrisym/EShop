@@ -1,3 +1,5 @@
+using BuildingBlocks.ApiResultWrapper;
+
 namespace Catalog.Api.Products.UpdateProduct;
 
 public record UpdateProductRequest(
@@ -8,7 +10,7 @@ public record UpdateProductRequest(
     string ImageFile,
     decimal Price);
 
-public sealed record UpdateProductResponse(bool IsSuccess);
+public sealed record UpdateProductResponse(Result result);
 
 public class UpdateProductEndpoint : ICarterModule
 {
@@ -21,12 +23,12 @@ public class UpdateProductEndpoint : ICarterModule
 
                     var result = await sender.Send(command);
 
-                    var response = result.Adapt<UpdateProductResponse>();
+                    var response = result.Adapt<Result>();
 
                     return Results.Ok(response);
                 })
             .WithName("UpdateProduct")
-            .Produces<UpdateProductResponse>(StatusCodes.Status200OK)
+            .Produces<Result>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Update Product")

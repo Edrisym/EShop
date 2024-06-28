@@ -1,18 +1,23 @@
+using BuildingBlocks.ApiResultWrapper;
 using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProduct;
 
-public sealed record GetProductQuery() : IQuery<GetProductResult>;
+public sealed record GetProductQuery() : IQuery<Result<IReadOnlyCollection<Product>>>;
 
-public sealed record GetProductResult(IReadOnlyCollection<Product> Products);
+public sealed record GetProductResult(Result<IReadOnlyCollection<Product>> Products);
 
 public class GetProductQueryHandler(IDocumentSession session, ILogger<GetProductQueryHandler> logger)
-    : IQueryHandler<GetProductQuery, GetProductResult>
+    : IQueryHandler<GetProductQuery, Result<IReadOnlyCollection<Product>>>
 {
-    public async Task<GetProductResult> Handle(GetProductQuery query, CancellationToken cancellationToken)
+    public async Task<Result<IReadOnlyCollection<Product>>> Handle(GetProductQuery query,
+        CancellationToken cancellationToken)
     {
         logger.LogInformation($"GetProductQueryHandler.Handle called with {query}", query);
-        var products = await session.Query<Product>().ToListAsync(cancellationToken);
-        return new GetProductResult(products);
+        
+        var products = await session
+            .Query<Product>().ToListAsync(cancellationToken);
+        
+        return Result<IReadOnlyCollection<Product>>.Success(products);
     }
 }
