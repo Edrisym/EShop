@@ -1,4 +1,5 @@
 using BuildingBlocks.ApiResultWrapper;
+using BuildingBlocks.Common.Response;
 using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProductByCategory;
@@ -15,10 +16,15 @@ public class GetProductByCategoryHandler(IDocumentSession session, ILogger<GetPr
     {
         logger.LogInformation("GetProductByCategoryHandler.Handle was called with {query}", query);
 
-        var result = await session.Query<Product>()
+        var products = await session.Query<Product>()
             .Where(x => x.Category.Contains(query.category))
             .ToListAsync(cancellationToken);
 
-        return Result<IReadOnlyCollection<Product>>.Success(result);
+        if (products.Count == 0)
+        {
+            return Result.Failure<IReadOnlyCollection<Product>>(Error.ValueNotFound);
+        }
+
+        return Result<IReadOnlyCollection<Product>>.Success(products);
     }
 }
