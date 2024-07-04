@@ -7,9 +7,7 @@ public class DeleteBasketHandler : ICommandHandler<DeleteBasketCommand, Result>
 {
     public async Task<Result> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
     {
-        //fetch form the database
-        //delete 
-        //save 
+        // TODO: delete basket from database and cache //session.Delete<Product>(command. Id);
 
         return Result.Success();
     }
