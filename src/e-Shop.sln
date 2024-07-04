@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.override.yml = docker-compose.override.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{B51399AA-FCB5-460E-96D1-6BCFF8D19606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Api", "Basket.Api\Basket.Api.csproj", "{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,8 @@ Global
 		{A1DA19AF-8513-4FFF-A510-450EBBF855F3} = {45745953-01AE-49E6-A759-8BC54743DBC9}
 		{626EC445-F0BC-435B-AA44-B0CBFB8E1E09} = {A1DA19AF-8513-4FFF-A510-450EBBF855F3}
 		{F419BF7B-64BF-45DD-AD32-39529B51F03E} = {08216395-42E9-492D-82D8-1CD5CD89E736}
+		{B51399AA-FCB5-460E-96D1-6BCFF8D19606} = {45745953-01AE-49E6-A759-8BC54743DBC9}
+		{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453} = {B51399AA-FCB5-460E-96D1-6BCFF8D19606}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{626EC445-F0BC-435B-AA44-B0CBFB8E1E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -35,5 +41,9 @@ Global
 		{F419BF7B-64BF-45DD-AD32-39529B51F03E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F419BF7B-64BF-45DD-AD32-39529B51F03E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F419BF7B-64BF-45DD-AD32-39529B51F03E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8C8B6F-2CB5-4C12-97D6-B1F3EEB39453}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
