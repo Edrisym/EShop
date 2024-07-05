@@ -2,9 +2,9 @@ using Mapster;
 
 namespace Basket.Api.Basket.GetBasket;
 
-public sealed record GetBasketResponse(Result Result);
+public sealed record GetBasketResponse(Result<ShoppingCart> Result);
 
-public class GetBasketEndpoint : ICarterModule
+public class GetBasketEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -13,7 +13,7 @@ public class GetBasketEndpoint : ICarterModule
         {
             var result = await sender.Send(new GetBasketQuery(userName));
             var response = result.Adapt<GetBasketResponse>();
-            return response;
+            return result;
         }).WithName("GetBasket")
         .Produces<Result>(StatusCodes.Status200OK)
         .ProducesProblem(StatusCodes.Status400BadRequest)

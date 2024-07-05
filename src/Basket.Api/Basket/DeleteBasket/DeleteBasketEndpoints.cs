@@ -1,21 +1,21 @@
 using Mapster;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.Api.Basket.DeleteBasket;
 
-public sealed record DeleteBasketRequest(string UserName);
+// public sealed record DeleteBasketRequest(string UserName);
 
-public sealed record DeleteBasketResponse(Result Result);
+public record DeleteBasketResponse(Result Result);
 
-public class DeleteBasketEndpoint : ICarterModule
+public class DeleteBasketEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/basket",
-                async (DeleteBasketRequest request, ISender sender) =>
+        app.MapDelete("/basket/{userName}",
+                async (string userName, ISender sender) =>
                 {
-                    var command = request.Adapt<DeleteBasketCommand>();
-                    var result = sender.Send(command);
+                    // var command = request.Adapt<DeleteBasketCommand>();
+                    var result = await sender.Send(new DeleteBasketCommand(userName));
                     var response = result.Adapt<DeleteBasketResponse>();
                     return response;
                 }).WithName("DeleteBasket")

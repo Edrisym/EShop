@@ -1,4 +1,5 @@
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.Api.Basket.StoreBasket;
 
@@ -6,7 +7,7 @@ public sealed record StoreBasketRequest(ShoppingCart Cart);
 
 public sealed record StoreBasketResponse(string UserName);
 
-public class StoreBasketEndpoint : ICarterModule
+public class StoreBasketEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
@@ -14,7 +15,7 @@ public class StoreBasketEndpoint : ICarterModule
                 async (StoreBasketRequest request, ISender sender) =>
                 {
                     var command = request.Adapt<StoreBasketCommand>();
-                    var result = sender.Send(command);
+                    var result = await sender.Send(command);
                     var response = result.Adapt<StoreBasketResponse>();
                     return result;
                 }).WithName("CreateBasket")
@@ -22,6 +23,5 @@ public class StoreBasketEndpoint : ICarterModule
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Create basket")
             .WithDescription("Create basket");
-        ;
     }
 }

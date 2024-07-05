@@ -1,3 +1,4 @@
+using Basket.Api.IRrepository;
 using BuildingBlocks.Common.Response;
 using Mapster;
 
@@ -8,11 +9,11 @@ namespace Basket.Api.Basket.GetBasket
 
     public sealed record GetBasketResult(Result Result);
 
-    public class GetBasketHandler : IQueryHandler<GetBasketQuery,Result>
+    public class GetBasketHandler(IBasketRepository repository) : IQueryHandler<GetBasketQuery,Result>
     {
         public async Task<Result> Handle(GetBasketQuery query, CancellationToken cancellationToken)
         {
-            var basket = new ShoppingCart("s");
+            var basket = await repository.GetBasket(query.UserName);
             return Result.Success(basket);
         }
     }
