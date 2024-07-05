@@ -11,7 +11,11 @@ public class StoreBasketHandler(IBasketRepository repository) : ICommandHandler<
 {
     public async Task<Result> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
-        var basket = await repository.StoreBasket(command.Cart);
+        var basket = await repository
+            .StoreBasket(command.Cart, cancellationToken);
+
+        //TODO if exists
+        
         
         return Result.Success(basket.UserName);
     }

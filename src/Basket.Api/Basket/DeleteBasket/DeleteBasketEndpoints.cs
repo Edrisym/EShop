@@ -16,8 +16,8 @@ public class DeleteBasketEndpoints : ICarterModule
                 {
                     // var command = request.Adapt<DeleteBasketCommand>();
                     var result = await sender.Send(new DeleteBasketCommand(userName));
-                    var response = result.Adapt<DeleteBasketResponse>();
-                    return response;
+                    // var response = result.Adapt<DeleteBasketResponse>();
+                    return result;
                 }).WithName("DeleteBasket")
             .Produces<Result>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)

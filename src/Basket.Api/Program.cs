@@ -1,5 +1,7 @@
 using Basket.Api.IRrepository;
 using Basket.Api.Repository;
+using BuildingBlocks.Exceptions.Handler;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,9 @@ builder.Services.AddMediatR(config =>
         config.AddOpenBehavior(typeof(LoggingBehavior<,>));
     }
 );
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddMarten(opts =>
 {
@@ -22,6 +27,7 @@ builder.Services.AddMarten(opts =>
 
 var app = builder.Build();
 
-app.MapCarter();
+app.UseExceptionHandler(opt => { });
 
+app.MapCarter();
 app.Run();
