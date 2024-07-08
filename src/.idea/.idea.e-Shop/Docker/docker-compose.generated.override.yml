@@ -1,0 +1,35 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.4"
+services:
+  catalog.api:
+    build:
+      context: "/Users/edrisym/Desktop/eShop/src"
+      dockerfile: "Catalog.Api/Dockerfile"
+      target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.exe"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
+    image: "catalogapi:dev"
+    ports:
+    - "127.0.0.1:57000:57100"
+    - "127.0.0.1:57200:57300"
+    volumes:
+    - "/Users/edrisym/.nuget/packages:/home/app/.nuget/packages"
+    - "/Users/edrisym/Desktop/eShop/src/Catalog.Api:/app:rw"
+    - "/Users/edrisym/Desktop/eShop/src:/src:rw"
+    - "/Users/edrisym/.local/share/JetBrains/RiderRemoteDebugger/2023.3.3/LinuxArm64:/opt/rider-debugger"
+    - "/Applications/Rider.app/Contents/bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "/Users/edrisym/Library/Logs/JetBrains/Rider2023.3/DebuggerWorker/JetBrains.Debugger.Worker.2024_7_08_21_05_12:/var/opt/rider-debugger:rw"
+    working_dir: "/app"
