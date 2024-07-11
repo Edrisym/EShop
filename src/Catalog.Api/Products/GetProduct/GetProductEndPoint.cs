@@ -9,7 +9,8 @@ public class GetProductEndPoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/Products", async ([AsParameters] GetProductRequest request, ISender sender) =>
+        app.MapGet("/Products", async 
+                ([AsParameters] GetProductRequest request, ISender sender) =>
             {
                 var query = request.Adapt<GetProductQuery>();
                 var response = await sender.Send(query);
@@ -20,6 +21,7 @@ public class GetProductEndPoint : ICarterModule
             .Produces<Result>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithSummary("Get Product")
-            .WithDescription("Get Product");
+            .WithDescription("Get Product")
+            .RequireRateLimiting("fixed");
     }
 }

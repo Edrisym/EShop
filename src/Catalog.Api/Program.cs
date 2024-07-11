@@ -1,8 +1,12 @@
+using System.Threading.RateLimiting;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
 using Catalog.API.Data;
 using HealthChecks.UI.Client;
+using JasperFx.Core;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Options;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +35,22 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("fixed", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                 Window = TimeSpan.FromSeconds(10)
+            }));
+});
+
 var app = builder.Build();
 
+app.UseRateLimiter();
 app.MapCarter();
 app.UseHealthChecks("/healthCheck",
     new HealthCheckOptions
@@ -40,5 +58,4 @@ app.UseHealthChecks("/healthCheck",
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
 app.UseExceptionHandler(opt => { });
-
 app.Run();
