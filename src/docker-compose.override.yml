@@ -54,3 +54,12 @@ services:
       - distributedcache
     ports:
       - "6001:8080"
+
+
+  discount.grpc:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__DefaultConnection=Data Source=discountdb
+    ports:
+      - "6003:8080"
