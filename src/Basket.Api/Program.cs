@@ -1,6 +1,7 @@
 using Basket.Api.IRrepository;
 using Basket.Api.Repository;
 using BuildingBlocks.Exceptions.Handler;
+using Discount.Grpc;
 using FluentValidation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -18,10 +19,14 @@ builder.Services.AddMediatR(config =>
         config.AddOpenBehavior(typeof(LoggingBehavior<,>));
     }
 );
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(opt =>
+{
+    opt.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-
 builder.Services.AddValidatorsFromAssembly(assembly);
-
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("DefaultConnection")!);

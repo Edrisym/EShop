@@ -4,6 +4,8 @@ public class ShoppingCart
 {
     public string UserName { get; set; } = default!;
     public decimal TotalPrice => Items.Sum(x => x.Price * x.Quantity);
+    
+    public decimal TotalPriceWithDiscount => Items.Sum(x => x.Price * x.Quantity);
     public List<ShoppingCartItem> Items { get; set; } = [];
     // public IReadOnlyCollection<ShoppingCartItem> ShoppingCartItems => Items;
 
