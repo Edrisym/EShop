@@ -34,18 +34,19 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
-// builder.Services.AddRateLimiter(options =>
-// {
-//     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-//     options.AddPolicy("fixed", httpContext =>
-//         RateLimitPartition.GetFixedWindowLimiter(
-//             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
-//             factory: _ => new FixedWindowRateLimiterOptions
-//             {
-//                 PermitLimit = 10,
-//                  Window = TimeSpan.FromSeconds(10)
-//             }));
-// });
+var fixedPolicy = "fixed";
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy(fixedPolicy, httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromSeconds(10)
+            }));
+});
 
 // var myOptions = new MyRateLimitOptions();
 // builder.Configuration.GetSection(MyRateLimitOptions.MyRateLimit).Bind(myOptions);
@@ -65,25 +66,25 @@ builder.Services.AddHealthChecks()
 // });
 
 
-builder.Services.AddRateLimiter(opt => {
-    opt.RejectionStatusCode = 429;
-    opt.AddSlidingWindowLimiter(policyName: "sliding", options => {
-        options.PermitLimit = 30;
-        options.Window = TimeSpan.FromSeconds(60);
-        options.SegmentsPerWindow = 2;
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        options.QueueLimit = 2;
-    });
-});
+// builder.Services.AddRateLimiter(opt => {
+//     opt.RejectionStatusCode = 429;
+//     opt.AddSlidingWindowLimiter(policyName: "sliding", options => {
+//         options.PermitLimit = 30;
+//         options.Window = TimeSpan.FromSeconds(60);
+//         options.SegmentsPerWindow = 2;
+//         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+//         options.QueueLimit = 2;
+//     });
+// });
 
 var app = builder.Build();
 
 app.UseRateLimiter();
 
-static string GetTicks() => (DateTime.Now.Ticks & 0x11111).ToString("00000");
-
-app.MapGet("/", () => Results.Ok($"Sliding Window Limiter {GetTicks()}"))
-    .RequireRateLimiting("sliding");
+// static string GetTicks() => (DateTime.Now.Ticks & 0x11111).ToString("00000");
+//
+// app.MapGet("/", () => Results.Ok($"Sliding Window Limiter {GetTicks()}"))
+//     .RequireRateLimiting("sliding");
 
 
 app.MapCarter();
