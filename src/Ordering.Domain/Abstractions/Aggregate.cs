@@ -17,8 +17,8 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
     //Approach 2: Combined Method for Clearing and Returning Domain Events
     public IDomainEvent[] ClearDomainEvent()
     {
-        IDomainEvent[] dequeuedEvents = _domainEvents.ToArray();
+        IDomainEvent[] @events = _domainEvents.ToArray();
         _domainEvents.Clear();
-        return dequeuedEvents;
+        return @events;
     }
 }
