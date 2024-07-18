@@ -6,11 +6,15 @@ public abstract class Aggregate<TId> : Entity<TId>, IAggregate<TId>
 
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-    protected void AddDomainEvent(IDomainEvent domainEvent)
-    {
-        _domainEvents.Add(domainEvent);
-    }
+    protected void RaiseDomainEvent(IDomainEvent @event) => _domainEvents.Add(@event);
+    
+    
+    //Approach 1: Separate Methods for Getting and Clearing Domain Events
+    public IReadOnlyCollection<IDomainEvent> GetDomainEvents() => _domainEvents.ToList();
+    public void ClearDomainEvents() => _domainEvents.Clear();
 
+    
+    //Approach 2: Combined Method for Clearing and Returning Domain Events
     public IDomainEvent[] ClearDomainEvent()
     {
         IDomainEvent[] dequeuedEvents = _domainEvents.ToArray();
