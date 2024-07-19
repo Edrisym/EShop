@@ -1,4 +1,3 @@
-using BuildingBlocks.ApiResultWrapper;
 using BuildingBlocks.Common.Response;
 using Catalog.Api.Exceptions;
 using Catalog.Api.Models.Products;

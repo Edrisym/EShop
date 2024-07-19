@@ -1,7 +1,3 @@
-using System.Runtime.InteropServices.JavaScript;
-using BuildingBlocks.ApiResultWrapper;
-using BuildingBlocks.Common.Response;
-using Catalog.Api.Models.Products;
 using Marten.Pagination;
 
 namespace Catalog.Api.Products.GetProduct;

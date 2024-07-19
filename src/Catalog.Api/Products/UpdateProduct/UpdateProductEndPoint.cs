@@ -1,4 +1,3 @@
-using BuildingBlocks.ApiResultWrapper;
 
 namespace Catalog.Api.Products.UpdateProduct;
 

@@ -1,6 +1,3 @@
-using BuildingBlocks.ApiResultWrapper;
-using Catalog.Api.Exceptions;
-using Catalog.Api.Models.Products;
 using Catalog.Api.Products.CreateProduct;
 
 namespace Catalog.Api.Products.DeleteProduct;

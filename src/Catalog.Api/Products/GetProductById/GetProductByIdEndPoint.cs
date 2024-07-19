@@ -1,4 +1,3 @@
-using BuildingBlocks.ApiResultWrapper;
 using Catalog.Api.Models.Products;
 
 namespace Catalog.Api.Products.GetProductById;

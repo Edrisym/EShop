@@ -1,6 +1,4 @@
-using BuildingBlocks.ApiResultWrapper;
-using BuildingBlocks.Common.Response;
-using Catalog.Api.Models.Products;
+
 
 namespace Catalog.Api.Products.GetProductByCategory;
 
