@@ -5,3 +5,6 @@ global using BuildingBlocks.CQRS;
 global using Marten;
 global using FluentValidation;
 global using BuildingBlocks.Behaviour;
+global using BuildingBlocks.Core.ApiResultWrapper;
+global using BuildingBlocks.Core.Response;
+global using Catalog.Api.Models.Products;

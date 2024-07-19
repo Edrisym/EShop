@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices.JavaScript;
 using BuildingBlocks.Common.Response;
+using BuildingBlocks.Core.Response;
 
 namespace Catalog.Api.Products.CreateProduct;
 

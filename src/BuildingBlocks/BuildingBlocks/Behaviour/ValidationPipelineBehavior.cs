@@ -1,5 +1,5 @@
-using BuildingBlocks.ApiResultWrapper;
-using BuildingBlocks.Common.Response;
+using BuildingBlocks.Core.ApiResultWrapper;
+using BuildingBlocks.Core.Response;
 using BuildingBlocks.CQRS;
 using FluentValidation;
 using MediatR;
@@ -28,7 +28,8 @@ public class ValidationPipelineBehavior<TRequest, TResponse>(IEnumerable<IValida
         return (TResult)validationResult;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (!_validators.Any())
         {

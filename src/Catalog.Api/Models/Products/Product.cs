@@ -1,4 +1,4 @@
-using BuildingBlocks.ApiResultWrapper;
+ using BuildingBlocks.Core.ApiResultWrapper;
 using Catalog.Api.Products.CreateProduct;
 
 namespace Catalog.Api.Models.Products;
