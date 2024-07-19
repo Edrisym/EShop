@@ -1,6 +1,7 @@
 using BuildingBlocks.Common.Response;
+using BuildingBlocks.Core.Response;
 
-namespace BuildingBlocks.Common;
+namespace BuildingBlocks.Core.Common;
 
 public class BaseErrors
 {

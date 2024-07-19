@@ -1,6 +1,6 @@
 using BuildingBlocks.Common.Response;
 
-namespace BuildingBlocks.Common;
+namespace BuildingBlocks.Core.Common;
 
 public class BaseMessages
 {

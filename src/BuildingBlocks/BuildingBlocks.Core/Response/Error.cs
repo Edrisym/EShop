@@ -1,4 +1,4 @@
-namespace BuildingBlocks.Common.Response;
+namespace BuildingBlocks.Core.Response;
 
 public class Error
 {

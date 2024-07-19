@@ -1,7 +1,8 @@
-using BuildingBlocks.Common;
 using BuildingBlocks.Common.Response;
+using BuildingBlocks.Core.Common;
+using BuildingBlocks.Core.Response;
 
-namespace BuildingBlocks.ApiResultWrapper;
+namespace BuildingBlocks.Core.ApiResultWrapper;
 
 public class Result
 {
