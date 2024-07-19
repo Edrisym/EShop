@@ -29,4 +29,8 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\BuildingBlocks.Core\BuildingBlocks.Core.csproj" />
+    </ItemGroup>
+
 </Project>
