@@ -11,4 +11,18 @@
       <ProjectReference Include="..\Ordering.Domain\Ordering.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Data\" />
+      <Folder Include="Dtos\" />
+      <Folder Include="Eventhandlers\Domain\" />
+      <Folder Include="Eventhandlers\Integrations\" />
+      <Folder Include="Extensions\" />
+      <Folder Include="Orders\Commands\CreateOrder\" />
+      <Folder Include="Orders\Commands\DeleteOrder\" />
+      <Folder Include="Orders\Commands\UpdateOredr\" />
+      <Folder Include="Orders\Queries\GetOrderByCustomer\" />
+      <Folder Include="Orders\Queries\GetOrderByName\" />
+      <Folder Include="Orders\Queries\GetOrders\" />
+    </ItemGroup>
+
 </Project>
