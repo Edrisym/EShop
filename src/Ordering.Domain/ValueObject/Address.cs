@@ -1,4 +1,5 @@
 namespace Ordering.Domain.ValueObject;
+
 public record Address
 {
     public string FirstName { get; } = default!;
@@ -8,11 +9,13 @@ public record Address
     public string Country { get; } = default!;
     public string State { get; } = default!;
     public string ZipCode { get; } = default!;
+
     protected Address()
     {
     }
 
-    private Address(string firstName, string lastName, string emailAddress, string addressLine, string country, string state, string zipCode)
+    private Address(string firstName, string lastName, string emailAddress, string addressLine, string country,
+        string state, string zipCode)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -23,11 +26,23 @@ public record Address
         ZipCode = zipCode;
     }
 
-    public static Address Of(string firstName, string lastName, string emailAddress, string addressLine, string country, string state, string zipCode)
+    public static Address Of(string firstName,
+        string lastName,
+        string emailAddress,
+        string addressLine,
+        string country,
+        string state,
+        string zipCode)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(emailAddress);
         ArgumentException.ThrowIfNullOrWhiteSpace(addressLine);
 
-        return new Address(firstName, lastName, emailAddress, addressLine, country, state, zipCode);
+        return new Address(firstName,
+            lastName,
+            emailAddress,
+            addressLine,
+            country,
+            state,
+            zipCode);
     }
 }
