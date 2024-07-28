@@ -12,17 +12,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\" />
-      <Folder Include="Dtos\" />
       <Folder Include="Eventhandlers\Domain\" />
       <Folder Include="Eventhandlers\Integrations\" />
-      <Folder Include="Extensions\" />
-      <Folder Include="Orders\Commands\CreateOrder\" />
-      <Folder Include="Orders\Commands\DeleteOrder\" />
-      <Folder Include="Orders\Commands\UpdateOredr\" />
-      <Folder Include="Orders\Queries\GetOrderByCustomer\" />
-      <Folder Include="Orders\Queries\GetOrderByName\" />
       <Folder Include="Orders\Queries\GetOrders\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit" Version="8.2.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+      <PackageReference Include="Microsoft.FeatureManagement" Version="3.5.0" />
     </ItemGroup>
 
 </Project>
