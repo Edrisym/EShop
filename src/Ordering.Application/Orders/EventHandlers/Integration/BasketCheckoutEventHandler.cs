@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Messaging.Events;
+﻿using BuildingBlocks.Messaging;
+using BuildingBlocks.Messaging.Events;
 using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;

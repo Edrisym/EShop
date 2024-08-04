@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Carter" Version="8.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
           <PrivateAssets>all</PrivateAssets>
@@ -25,10 +26,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
       <ProjectReference Include="..\Ordering.Infrastructure\Ordering.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Endpoint\" />
     </ItemGroup>
 
 </Project>

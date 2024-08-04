@@ -1,20 +1,24 @@
-using System.Reflection;
 using BuildingBlocks.Behaviors;
-using BuildingBlocks.Behaviour;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Ordering.Application;
-
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices
+        (this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddMediatR(opt =>
+        services.AddMediatR(config =>
         {
-            opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            opt.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
-            opt.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
+
+        // services.AddFeatureManagement();
+        // services.AddMessageBroker(configuration, Assembly.GetExecutingAssembly());
+
         return services;
     }
 }
