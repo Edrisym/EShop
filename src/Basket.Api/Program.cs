@@ -1,6 +1,7 @@
 using Basket.Api.IRrepository;
 using Basket.Api.Repository;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 using FluentValidation;
 using HealthChecks.UI.Client;
@@ -51,6 +52,7 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("DefaultConnection")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
+builder.Services.AddMassageBroker(builder.Configuration);
 
 var app = builder.Build();
 
