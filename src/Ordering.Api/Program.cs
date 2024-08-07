@@ -1,6 +1,4 @@
 
-using BuildingBlocks.Exceptions.Handler;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
@@ -8,13 +6,9 @@ builder.Services
     .AddInfrastructureLayer(builder.Configuration)
     .AddPresentationLayer();
 
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-
 var app = builder.Build();
 
 app.UsePresentationLayer();
-
-app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
