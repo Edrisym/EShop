@@ -9,10 +9,16 @@ services:
   
   distributedcache:
     image: redis
-        
+  
   orderdb:
     image: mcr.microsoft.com/azure-sql-edge
-    
+  
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: Ordering.Api/Dockerfile
+  
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
