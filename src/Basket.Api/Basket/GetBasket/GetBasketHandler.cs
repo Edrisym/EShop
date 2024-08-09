@@ -18,7 +18,7 @@ namespace Basket.Api.Basket.GetBasket
 
             if (basket is null)
             {
-                return Result.Failure(Error.ValueNotFound);
+                return Result.Success(Error.ValueNotFound);
             }
             
             return Result.Success(basket);

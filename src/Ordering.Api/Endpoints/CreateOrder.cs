@@ -25,9 +25,7 @@ public class CreateOrder : ICarterModule
 
                 var result = await sender.Send(command);
 
-                var response = result.Adapt<CreateOrderResponse>();
-
-                return Results.Created($"/orders/{response.Id}", response);
+                return result;
             })
             .WithName("CreateOrder")
             .Produces<CreateOrderResponse>(StatusCodes.Status201Created)

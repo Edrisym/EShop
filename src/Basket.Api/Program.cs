@@ -6,6 +6,7 @@ using Discount.Grpc;
 using FluentValidation;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Ordering.Application.Orders.EventHandlers.Integration;
 
 var builder = WebApplication.CreateBuilder(args);
 

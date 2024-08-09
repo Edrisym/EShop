@@ -32,6 +32,17 @@ services:
     restart: always
     ports:
       - "6379:6379"
+        
+  messagebroker:
+    container_name: messagebroker
+    hostname: rabbitmq:management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   
   orderdb:
     container_name: orderdb
@@ -41,7 +52,6 @@ services:
     restart: always
     ports:
       - "1433:1433"
-    
     
   catalog.api:
     environment:
@@ -71,7 +81,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
-      - ConnectionStrings__Database=Server=localhost, 1433;Database=OrderDb;User Id=SA;Password=SwN12345678;Encrypt=False;TrustServerCertificate=True
+      - ConnectionStrings__Database=Server=orderdb;Database=OrderDb;User Id=SA;Password=SwN12345678;Encrypt=False;TrustServerCertificate=True
     depends_on:
       - orderdb
     ports:
